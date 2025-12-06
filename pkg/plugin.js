@@ -29,6 +29,25 @@
         if (typeof that.dd.name == 'undefined') return;
         var rec = that.pluggable.getvar(that.dd.name, RECORD);
         if (typeof rec != 'object') { return; };
+        if (typeof rec.commands == 'object') { 
+          for (var i=0; i<rec.commands.length; i++) {
+            if (typeof rec.commands[i].cmd == 'string')
+            switch(rec.commands[i].cmd) {
+              case 'slickGoTo':
+                $(that.element).slick(rec.commands[i].cmd, rec.commands[i].n, rec.commands[i].a);
+                console.log(rec.commands[i].cmd);
+              break;
+              case 'slickNext':
+              case 'slickPrev':
+              case 'slickPause':
+              case 'slickPlay':
+                $(that.element).slick(rec.commands[i].cmd);
+                console.log(rec.commands[i].cmd);
+              break;              
+            };
+            
+          };
+        };
 
       },
 

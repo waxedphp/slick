@@ -1,6 +1,6 @@
-# Name...
+# Slick
 
-... - within WaxedPHP environment.
+Slick carousel - within WaxedPHP environment.
 
 This package contains helper plugin functionality for WaxedPHP.
 All required third party sources will be downloaded to npm during composer installation.

@@ -1,5 +1,5 @@
 <?php
-namespace Waxedphp\Boilerplate;
+namespace Waxedphp\Slick;
 
 class Setter extends \Waxedphp\Waxedphp\Php\Setters\AbstractSetter {
 
@@ -7,6 +7,12 @@ class Setter extends \Waxedphp\Waxedphp\Php\Setters\AbstractSetter {
    * @var array<mixed> $setup
    */
   private array $setup = [
+  ];
+
+  /**
+   * @var array<mixed> $commands
+   */
+  private array $commands = [
   ];
   
   /**
@@ -33,6 +39,49 @@ class Setter extends \Waxedphp\Waxedphp\Php\Setters\AbstractSetter {
   }
 
   /**
+   * Navigates to a slide by index
+   * int : slide number, boolean: dont animate
+   */
+  function slickGoTo(int $slideNumber, bool $dontAnimate = false) {
+    $this->commands[] = [
+      'cmd' => 'slickGoTo', 'n' => $slideNumber, 'a' => $dontAnimate
+    ];
+    return $this;
+  }
+	
+  /**
+	* Navigates to the next slide
+  */
+  function slickNext() {
+    $this->commands[] = ['cmd' => 'slickNext'];
+    return $this;
+  }
+
+  /**
+	* Navigates to the previous slide
+  */
+  function slickPrev() {
+    $this->commands[] = ['cmd' => 'slickPrev'];
+    return $this;
+  }
+	
+  /**
+	* Pauses autoplay
+  */
+  function slickPause() {
+    $this->commands[] = ['cmd' => 'slickPause'];
+    return $this;
+  }
+	
+	/**
+   * 
+   */
+  function slickPlay() {
+    $this->commands[] = ['cmd' => 'slickPlay'];
+    return $this;
+  }
+
+  /**
   * value
   *
   * @param mixed $value
@@ -45,6 +94,10 @@ class Setter extends \Waxedphp\Waxedphp\Php\Setters\AbstractSetter {
       $a['config'] = $b;
     }
     $a['value'] = $value;
+    if (!empty($this->commands)) {
+      $a['commands'] = $this->commands;
+      $this->commands = [];
+    };
     return $a;
   }
 
