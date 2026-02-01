@@ -7,7 +7,8 @@
         defaults = {
             propertyName: "value"
         },
-        inited = false
+        inited = false,
+        iInitRepeats = 0
         ;
 
     function Instance(pluggable,element,dd){
@@ -29,7 +30,7 @@
         if (typeof that.dd.name == 'undefined') return;
         var rec = that.pluggable.getvar(that.dd.name, RECORD);
         if (typeof rec != 'object') { return; };
-        if (typeof rec.commands == 'object') { 
+        if (typeof rec.commands == 'object') {
           for (var i=0; i<rec.commands.length; i++) {
             if (typeof rec.commands[i].cmd == 'string')
             switch(rec.commands[i].cmd) {
@@ -43,9 +44,9 @@
               case 'slickPlay':
                 $(that.element).slick(rec.commands[i].cmd);
                 console.log(rec.commands[i].cmd);
-              break;              
+              break;
             };
-            
+
           };
         };
 
@@ -57,7 +58,18 @@
       },
 
       this.init=function() {
-        
+
+
+        if (typeof $.fn.slick == 'undefined') {
+          iInitRepeats++;
+          if (iInitRepeats>3) return;
+          setTimeout(function() {
+            that.init();
+          }, 1000);
+          console.log('waiting slick ', $);
+          return;
+        };
+
         $(that.element).slick({
 
   // normal options...
